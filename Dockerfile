@@ -21,7 +21,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install asciinema \
     && apt-get -y install telnet netcat socat \
     && apt-get -y install gdb-multiarch htop \
-    && apt-get -y install bubblewrap \
+    && apt-get -y install bubblewrap python3-pip \
     && apt-get -y install libelf-dev libevent-dev ncurses-dev build-essential bison pkg-config \
     && curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly \
     && wget 'https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb' \
@@ -92,20 +92,22 @@ RUN pipx install r2env \
     && r2env init \
     && r2env add radare2@git
 
-RUN pipx install gdbgui ptpython bpython
+RUN pipx install gdbgui \
+    && pipx install ptpython \
+    && pipx install bpython
 
 RUN dotnet tool install -g dotnet-repl \
-    dotnet tool install -g dotnet-example \ 
-    dotnet tool install -g dotnet-sos \
-    dotnet tool install -g dotnet-dump \
-    dotnet tool install -g dotnet-symbol \ 
-    dotnet tool install -g dotnet-monitor \
-    dotnet tool install -g dotnet-gcdump \
-    dotnet tool install -g dotnet-suggest \
-    dotnet tool install -g dotnet-script \
-    dotnet tool install -g dotnet-counters \ 
-    dotnet tool install -g dotnet-trace \
-    dotnet tool install -g csharprepl
+    && dotnet tool install -g dotnet-example \ 
+    && dotnet tool install -g dotnet-sos \
+    && dotnet tool install -g dotnet-dump \
+    && dotnet tool install -g dotnet-symbol \ 
+    && dotnet tool install -g dotnet-monitor \
+    && dotnet tool install -g dotnet-gcdump \
+    && dotnet tool install -g dotnet-suggest \
+    && dotnet tool install -g dotnet-script \
+    && dotnet tool install -g dotnet-counters \ 
+    && dotnet tool install -g dotnet-trace \
+    && dotnet tool install -g csharprepl
 
 RUN mkdir -p "$HOME/bin"
 
@@ -113,7 +115,7 @@ RUN TEMP_TAR="$(mktemp)" \
     TEMP_PECO_DIR="$(mktemp -d)" \
     && wget -O "$TEMP_TAR" 'https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz' \
     && tar -zxf "$TEMP_TAR" -C "$TEMP_PECO_DIR" \
-    && mv "${TEMP_PECO_DIR}/peco" "$HOME/bin" \
+    && mv "${TEMP_PECO_DIR}/peco_linux_amd64/peco" "$HOME/bin" \
     && rm -rf "$TEMP_TAR" "$TEMP_PECO_DIR"
 
 RUN TEMP_TAR="$(mktemp)" \
