@@ -22,7 +22,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install telnet netcat socat \
     && apt-get -y install gdb-multiarch htop \
     && apt-get -y install bubblewrap \
-    && apt-get -y install libevent-dev ncurses-dev build-essential bison pkg-config \
+    && apt-get -y install libelf-dev libevent-dev ncurses-dev build-essential bison pkg-config \
     && curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly \
     && wget 'https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb' \
     && apt-get -y install ./nvim-linux64.deb && rm -f ./nvim-linux64.deb \
