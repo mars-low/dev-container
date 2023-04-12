@@ -17,7 +17,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark termshark \
-    && apt-get -y install fzf bat neofetch \
+    && apt-get -y install bat neofetch \
     && apt-get -y install asciinema \
     && apt-get -y install telnet netcat socat \
     && apt-get -y install gdb-multiarch htop \
@@ -76,7 +76,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     PATH=/usr/local/cargo/bin:$PATH \
     HOME=/home/codespace \
     SHELL=/usr/bin/zsh
-RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping below kmon
+RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping below kmon zellij
 
 RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/jesseduffield/lazydocker@latest \
@@ -108,6 +108,9 @@ RUN dotnet tool install -g dotnet-repl \
     && dotnet tool install -g dotnet-counters \ 
     && dotnet tool install -g dotnet-trace \
     && dotnet tool install -g csharprepl
+
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
+    && $HOME/.fzf/install --no-update-rc --completion --key-bindings
 
 RUN mkdir -p "$HOME/bin"
 
@@ -142,5 +145,6 @@ WORKDIR /home/codespace
 
 RUN pip3 install --user pynvim
 
-ENV PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
+ENV CARGO_HOME="$HOME/.cargo" \
+    PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
 
