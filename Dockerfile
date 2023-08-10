@@ -1,6 +1,6 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/codespaces-linux/.devcontainer/base.Dockerfile
 
-FROM mcr.microsoft.com/vscode/devcontainers/universal:2-focal
+FROM mcr.microsoft.com/devcontainers/universal:2.4.2-linux
 
 COPY library-scripts/*.sh /tmp/library-scripts/
 # ** Install additional packages. **
@@ -13,19 +13,21 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
     && apt-get update \
     && apt-get -y install mono-complete \
-    && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev \
+    && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark termshark \
     && apt-get -y install bat neofetch \
     && apt-get -y install asciinema \
+    && apt-get -y install usbutils adb  \
+    && apt-get -y install cpio iperf \
     && apt-get -y install telnet netcat socat \
     && apt-get -y install gdb-multiarch htop \
     && apt-get -y install bubblewrap python3-pip \
     && apt-get -y install libelf-dev libevent-dev ncurses-dev build-essential bison pkg-config \
     && curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly \
-    && wget 'https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb' \
-    && apt-get -y install ./nvim-linux64.deb && rm -f ./nvim-linux64.deb \
+    # && wget 'https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb' \
+    # && apt-get -y install ./nvim-linux64.deb && rm -f ./nvim-linux64.deb \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 RUN TEMP_DEB="$(mktemp)" \
@@ -76,7 +78,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     PATH=/usr/local/cargo/bin:$PATH \
     HOME=/home/codespace \
     SHELL=/usr/bin/zsh
-RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping below kmon zellij
+RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping below kmon zellij bob-nvim
 
 RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/jesseduffield/lazydocker@latest \
@@ -107,7 +109,9 @@ RUN dotnet tool install -g dotnet-repl \
     && dotnet tool install -g dotnet-script \
     && dotnet tool install -g dotnet-counters \ 
     && dotnet tool install -g dotnet-trace \
-    && dotnet tool install -g csharprepl
+    && dotnet tool install -g csharprepl \
+    && dotnet tool install -g docfx \
+    && dotnet tool install -g Roslynator.DotNet.Cli
 
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
     && $HOME/.fzf/install --no-update-rc --completion --key-bindings
@@ -144,6 +148,8 @@ USER codespace
 WORKDIR /home/codespace
 
 RUN pip3 install --user pynvim
+
+RUN bob install v0.9.1 && bob use v0.9.1 
 
 ENV CARGO_HOME="$HOME/.cargo" \
     PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
