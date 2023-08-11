@@ -78,11 +78,10 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     PATH=/usr/local/cargo/bin:$PATH \
     HOME=/home/codespace \
     SHELL=/usr/bin/zsh
-RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping below kmon zellij bob-nvim
+RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
 
 RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/jesseduffield/lazydocker@latest \
-    && go install github.com/bensadeh/despell@latest \
     && go install github.com/antonmedv/fx@latest \
     && go install github.com/rs/curlie@latest \
     && go install github.com/arl/gitmux@latest \
