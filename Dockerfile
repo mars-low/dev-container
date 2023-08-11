@@ -150,6 +150,10 @@ RUN pip3 install --user pynvim
 
 RUN bob install v0.9.1 && bob use v0.9.1 
 
+RUN git clone https://github.com/doctorfree/nvim-lazyman $HOME/.config/nvim-Lazyman \
+    && $HOME/.config/nvim-Lazyman/lazyman.sh -Q \
+    && lazyman -q -y -H -I -W -X -A -Q
+
 ENV CARGO_HOME="$HOME/.cargo" \
     PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
 
