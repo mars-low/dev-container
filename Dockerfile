@@ -152,10 +152,9 @@ RUN bob install v0.9.1 && bob use v0.9.1
 
 # SHA: 816581146772c8cfeaf5abc004cd443117283275
 RUN git clone https://github.com/doctorfree/nvim-lazyman $HOME/.config/nvim-Lazyman \
-    && sed -i '/ulimit/c\echo "ulimit skipped"' $HOME/.config/nvim-Lazyman/scripts/install_neovim.sh \
-    && sed -i '/ulimit/c\echo "ulimit skipped"' $HOME/.config/nvim-Lazyman/lazyman.sh \
-    && $HOME/.config/nvim-Lazyman/lazyman.sh -q -y -z -Q \
-    && lazyman -q -y -z -H -A -a -B -c -e -g -j -k -l -m -M -o -s -v -I -W -X -Q
+    && sed -i '/ulimit/c\echo ""' $HOME/.config/nvim-Lazyman/scripts/install_neovim.sh \
+    && sed -i '/ulimit/c\echo ""' $HOME/.config/nvim-Lazyman/lazyman.sh \
+    && $HOME/.config/nvim-Lazyman/lazyman.sh -q -y -z -Q
 
 ENV CARGO_HOME="$HOME/.cargo" \
     PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
