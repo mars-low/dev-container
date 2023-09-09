@@ -6,7 +6,9 @@ COPY library-scripts/*.sh /tmp/library-scripts/
 # ** Install additional packages. **
 USER root
 
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+RUN export DEBIAN_FRONTEND=noninteractive \ 
+    && add-apt-repository --yes ppa:kicad/kicad-7.0-releases \
+    && apt-get update \
     && bash /tmp/library-scripts/rust-debian.sh "${CARGO_HOME}" "${RUSTUP_HOME}" "${USERNAME}" "true" "true" \
     && apt-get -y install gnupg ca-certificates \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
@@ -14,21 +16,32 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get -y install mono-complete \
     && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
+    && apt-get -y install --install-recommends kicad \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark termshark \
     && apt-get -y install bat neofetch \
     && apt-get -y install asciinema \
     && apt-get -y install usbutils adb  \
-    && apt-get -y install cpio iperf \
+    && apt-get -y install cpio iperf tzdata cpu-checker \
     && apt-get -y install telnet netcat socat \
     && apt-get -y install gdb-multiarch htop \
     && apt-get -y install bubblewrap python3-pip \
+    && apt-get -y install iptables iproute2 dnsmasq net-tools ca-certificates nftables tcpdump procps \
+    && apt-get -y install xterm scons libncursesw5 python3-sphinx \
+    && apt-get -y install eslint python3-proselint shellcheck spell rubocop \
     && apt-get -y install libelf-dev libevent-dev ncurses-dev build-essential bison pkg-config \
+    && apt-get -y install apparmor qemu qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
+    $$ apt-get -y install xfce4 xfce4-goodies tightvncserver \
     && curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly \
     # && wget 'https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb' \
     # && apt-get -y install ./nvim-linux64.deb && rm -f ./nvim-linux64.deb \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+
+RUN TEMP_DEB="$(mktemp)" \
+    && wget -O "$TEMP_DEB" 'https://releases.hashicorp.com/vagrant/2.3.7/vagrant_2.3.7-1_amd64.deb' \
+    && dpkg -i "$TEMP_DEB" \
+    && rm -f "$TEMP_DEB"
 
 RUN TEMP_DEB="$(mktemp)" \
     && wget -O "$TEMP_DEB" 'https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb' \
@@ -114,6 +127,8 @@ RUN dotnet tool install -g dotnet-repl \
 
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
     && $HOME/.fzf/install --no-update-rc --completion --key-bindings
+
+RUN vagrant plugin install vagrant-libvirt
 
 RUN mkdir -p "$HOME/bin"
 
