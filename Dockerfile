@@ -32,7 +32,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install eslint python3-proselint shellcheck spell rubocop \
     && apt-get -y install libelf-dev libevent-dev ncurses-dev build-essential bison pkg-config \
     && apt-get -y install apparmor qemu qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
-    $$ apt-get -y install xfce4 xfce4-goodies tightvncserver \
+    && apt-get -y install xfce4 xfce4-goodies tightvncserver \
     && curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly \
     # && wget 'https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb' \
     # && apt-get -y install ./nvim-linux64.deb && rm -f ./nvim-linux64.deb \
