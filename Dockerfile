@@ -48,7 +48,7 @@ RUN TEMP_DEB="$(mktemp)" \
     && rm -f "$TEMP_DEB"
 
 RUN TEMP_DEB="$(mktemp)" \
-    && wget -O "$TEMP_DEB" 'https://github.com/dandavison/delta/releases/download/0.16.5/git-delta_0.16.5_amd64.deb' \
+    && wget -O "$TEMP_DEB" 'https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb' \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
 
