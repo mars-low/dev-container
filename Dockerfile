@@ -31,7 +31,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install xterm scons libncursesw5 python3-sphinx \
     && apt-get -y install eslint python3-proselint shellcheck spell rubocop \
     && apt-get -y install libelf-dev libevent-dev ncurses-dev build-essential bison pkg-config \
-    && apt-get -y install patchelf device-tree-compiler flex perf ninja-build gperf \
+    && apt-get -y install patchelf device-tree-compiler flex ninja-build gperf \
     && apt-get -y install gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi \
     && apt-get -y install openscad xvfb flatpak nxagent \
     && apt-get -y install clang clang-tidy cppcheck gcc-multilib lzma \
