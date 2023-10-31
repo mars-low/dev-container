@@ -82,7 +82,7 @@ jobs:
             clang-format-*
           )
           #
-          sudo apt-get remove --allow-remove-essential -y ${packages[@]}
+          sudo apt-get remove --allow-remove-essential -y ${packages[@]} || true
           echo "::endgroup::"
           echo "::group::paths"
           # paths to rm -rf
@@ -133,7 +133,7 @@ jobs:
               /home/linuxbrew
           )
           #
-          sudo rm -rf ${paths[@]}
+          sudo rm -rf ${paths[@]} || true
           echo "::endgroup::"
           sudo swapoff -a
           echo "::group::files"
@@ -163,7 +163,7 @@ jobs:
             /usr/local/bin/phpunit
           )
           #
-          sudo rm -vf ${files[@]}
+          sudo rm -vf ${files[@]} || true
           echo "::endgroup::"
           echo "::group::misc"
           #
