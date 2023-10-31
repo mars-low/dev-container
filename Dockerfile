@@ -31,6 +31,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install xterm scons libncursesw5 python3-sphinx \
     && apt-get -y install eslint python3-proselint shellcheck spell rubocop \
     && apt-get -y install libelf-dev libevent-dev ncurses-dev build-essential bison pkg-config \
+    && apt-get -y install patchelf device-tree-compiler flex perf ninja-build gperf \
+    && apt-get -y install gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi \
+    && apt-get -y install openscad xvfb flatpak nxagent \
+    && apt-get -y install clang clang-tidy cppcheck gcc-multilib lzma \
     && apt-get -y install apparmor qemu qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
     && apt-get -y install xfce4 xfce4-goodies tightvncserver \
     && curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly \
@@ -44,7 +48,7 @@ RUN TEMP_DEB="$(mktemp)" \
     && rm -f "$TEMP_DEB"
 
 RUN TEMP_DEB="$(mktemp)" \
-    && wget -O "$TEMP_DEB" 'https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb' \
+    && wget -O "$TEMP_DEB" 'https://github.com/dandavison/delta/releases/download/0.16.5/git-delta_0.16.5_amd64.deb' \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
 
@@ -107,8 +111,9 @@ RUN pipx install r2env \
     && r2env add radare2@git
 
 RUN pipx install gdbgui \
-    && pipx install ptpython \
-    && pipx install bpython
+    # && pipx install ptpython \
+    # && pipx install bpython \
+    && pipx install codechecker
 
 RUN dotnet tool install -g dotnet-repl \
     && dotnet tool install -g dotnet-example \ 
