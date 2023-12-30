@@ -128,10 +128,9 @@ RUN TEMP_DEB="$(mktemp)" \
     && wget -O "$TEMP_DEB" 'https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_amd64.deb' \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
-# RUN wget https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-linux-x86_64.sh \
-    # && chmod +x cmake-3.25.2-linux-x86_64.sh \
-    # && ./cmake-3.25.2-linux-x86_64.sh --skip-license --include-subdir \
-    # && rm -f cmake-3.25.2-linux-x86_64.sh
+
+RUN ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime \
+    && dpkg-reconfigure -f noninteractive tzdata
 
 RUN chown -R codespace:codespace /home/codespace/
 RUN chmod 755 /home/codespace/
@@ -144,7 +143,6 @@ ENV PATH="/usr/bin:${PATH}" \
 
 RUN mkdir -p "$HOME/bin"
 
-# These do not need sudo access to install
 RUN TEMP_TAR="$(mktemp)" \
     TEMP_PECO_DIR="$(mktemp -d)" \
     && wget -O "$TEMP_TAR" 'https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz' \
@@ -180,6 +178,8 @@ RUN pipx install r2env \
     && r2env init \
     && r2env add radare2@git
 
+ENV PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
+
 RUN pipx install gdbgui \
     && pipx install flawfinder \
     && pipx install lizard \
@@ -208,10 +208,6 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
     && $HOME/.fzf/install --no-update-rc --completion --key-bindings
 
 RUN vagrant plugin install vagrant-libvirt
-
-RUN pip3 install --user pynvim
-
-RUN bob install v0.9.1 && bob use v0.9.1 
-
-ENV PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
-
+RUN python3 -m pip install virtualenv
+RUN python3 -m pip install --user pynvim
+RUN bob install v0.9.4 && bob use v0.9.4
