@@ -17,7 +17,7 @@ USER root
 
 # ** Install additional packages. **
 RUN export DEBIAN_FRONTEND=noninteractive \ 
-    && dpkg --add-architecture i386 \ # winehq
+    && dpkg --add-architecture i386 \
     && add-apt-repository --yes ppa:kicad/kicad-7.0-releases \
     && apt-get update \
     && bash /tmp/library-scripts/rust-debian.sh "${CARGO_HOME}" "${RUSTUP_HOME}" "${USERNAME}" "true" "true" \
