@@ -98,42 +98,42 @@ RUN TEMP_DEB="$(mktemp)" \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
 
-RUN TEMP_GZ="$(mktemp)" \
-    TEMP_TMUX_DIR="$(mktemp -d)" \
-    && wget -O "$TEMP_GZ" 'https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz' \
-    && tar -zxf "$TEMP_GZ" -C "$TEMP_TMUX_DIR" \
-    && cd "${TEMP_TMUX_DIR}/tmux-3.3a" \
-    && ./configure && make && make install \
-    && cd - \
-    && rm -rf "$TEMP_GZ" "$TEMP_TMUX_DIR"
-
 RUN TEMP_DEB="$(mktemp)" \
     && wget -O "$TEMP_DEB" 'https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb' \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
 
-RUN TEMP_TAR="$(mktemp)" \
-    TEMP_TIG_DIR="$(mktemp -d)" \
-    && wget -O "$TEMP_TAR" 'https://github.com/jonas/tig/releases/download/tig-2.5.8/tig-2.5.8.tar.gz' \
-    && tar -zxf "$TEMP_TAR" -C "$TEMP_TIG_DIR" \
-    && cd "${TEMP_TIG_DIR}/tig-2.5.8" \
-    && make prefix=/usr/local && make install prefix=/usr/local \
-    && cd - \
-    && rm -rf "$TEMP_TAR" "$TEMP_TIG_DIR"
-
-RUN TEMP_TAR="$(mktemp)" \
-    TEMP_BTOP_DIR="$(mktemp -d)" \
-    && wget -O "$TEMP_TAR" 'https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl.tbz' \
-    && tar xvfj "$TEMP_TAR" -C "$TEMP_BTOP_DIR" \
-    && cd "${TEMP_BTOP_DIR}/btop" \
-    && make install && make setuid \
-    && cd - \
-    && rm -rf "$TEMP_TAR" "$TEMP_BTOP_DIR"
-
 RUN TEMP_DEB="$(mktemp)" \
     && wget -O "$TEMP_DEB" 'https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_amd64.deb' \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+    && cd "${TEMP_DIR}/tmux-3.3a" \
+    && ./configure && make && make install \
+    && cd - \
+    && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/jonas/tig/releases/download/tig-2.5.8/tig-2.5.8.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+    && cd "${TEMP_DIR}/tig-2.5.8" \
+    && make prefix=/usr/local && make install prefix=/usr/local \
+    && cd - \
+    && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+RUN TEMP_TBZ="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_TBZ" 'https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl.tbz' \
+    && tar xvfj "$TEMP_TBZ" -C "$TEMP_DIR" \
+    && cd "${TEMP_DIR}/btop" \
+    && make install && make setuid \
+    && cd - \
+    && rm -rf "$TEMP_TBZ" "$TEMP_DIR"
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
@@ -151,28 +151,28 @@ ENV GO111MODULE=on \
     GOPATH="$HOME/go" \
     PATH="$HOME/go/bin:${PATH}"
 
-RUN go env -w GOPATH=$GOPATH
+RUN go env -w GOPATH="$GOPATH"
 
 RUN mkdir -p "$HOME/bin"
 
-RUN TEMP_TAR="$(mktemp)" \
-    TEMP_PECO_DIR="$(mktemp -d)" \
-    && wget -O "$TEMP_TAR" 'https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz' \
-    && tar -zxf "$TEMP_TAR" -C "$TEMP_PECO_DIR" \
-    && mv "${TEMP_PECO_DIR}/peco_linux_amd64/peco" "$HOME/bin" \
-    && rm -rf "$TEMP_TAR" "$TEMP_PECO_DIR"
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/peco_linux_amd64/peco" "$HOME/bin" \
+    && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
-RUN TEMP_TAR="$(mktemp)" \
-    && wget -O "$TEMP_TAR" 'https://dev.yorhel.nl/download/ncdu-2.2.1-linux-x86_64.tar.gz' \
-    && tar -zxf "$TEMP_TAR" -C "$HOME/bin" \
-    && rm "$TEMP_TAR"
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://dev.yorhel.nl/download/ncdu-2.2.1-linux-x86_64.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
+    && rm "$TEMP_TAR_GZ"
 
 RUN TEMP_ZIP="$(mktemp)" \
-    TEMP_LNAV_DIR="$(mktemp -d)" \
+    TEMP_DIR="$(mktemp -d)" \
     && wget -O "$TEMP_ZIP" 'https://github.com/tstack/lnav/releases/download/v0.11.1/lnav-0.11.1-x86_64-linux-musl.zip' \
-    && unzip -j "$TEMP_ZIP" -d "$TEMP_LNAV_DIR" \
-    && mv "${TEMP_LNAV_DIR}/lnav" "$HOME/bin" \
-    && rm -rf "$TEMP_ZIP" "$TEMP_LNAV_DIR"
+    && unzip -j "$TEMP_ZIP" -d "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/lnav" "$HOME/bin" \
+    && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
 
 RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
 
