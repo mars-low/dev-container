@@ -124,6 +124,10 @@ RUN TEMP_TBZ="$(mktemp)" \
 RUN ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
 
+# https://github.com/dotnet/runtime/issues/91987#issuecomment-1720233110
+# https://github.com/dotnet/runtime/pull/90343#issue-1845914061
+RUN rm -rf /tmp/.dotnet/shm/ /tmp/.dotnet/lockfiles/
+
 RUN chown -R codespace:codespace /home/codespace/
 RUN chmod 755 /home/codespace/
 USER codespace
