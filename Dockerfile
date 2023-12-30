@@ -281,7 +281,7 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && mv "${TEMP_DIR}/sd-v1.0.0-x86_64-unknown-linux-musl/sd" "$HOME/bin" \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
-    # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found
+# /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found
 # RUN TEMP_ZIP="$(mktemp)" \
 #     TEMP_DIR="$(mktemp -d)" \
 #     && wget -O "$TEMP_ZIP" 'https://github.com/MordechaiHadad/bob/releases/download/v2.7.0/bob-linux-x86_64.zip' \
@@ -290,7 +290,7 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
 #     && rm -rf "$TEMP_ZIP" "$TEMP_DIR" \
 #     && chmod +x "$HOME/bin/bob"
 
-RUN go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest
+# RUN go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest
 
 RUN wget -O "$HOME/bin/bazelisk" 'https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-amd64' \
     && chmod +x "$HOME/bin/bazelisk"
