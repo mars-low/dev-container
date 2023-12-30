@@ -174,7 +174,7 @@ RUN TEMP_ZIP="$(mktemp)" \
     && mv "${TEMP_DIR}/lnav" "$HOME/bin" \
     && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
 
-RUN cargo install --locked gitui hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
+RUN cargo install --locked hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
 
 RUN TEMP_ZIP="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
@@ -211,6 +211,11 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
     && mv "${TEMP_DIR}/lsd-v1.0.0-x86_64-unknown-linux-musl/lsd" "$HOME/bin" \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/extrawurst/gitui/releases/download/v0.24.3/gitui-linux-musl.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
+    && rm "$TEMP_TAR_GZ"
 
 RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/jesseduffield/lazydocker@latest \
