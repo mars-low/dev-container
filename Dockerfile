@@ -43,6 +43,11 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 RUN TEMP_DEB="$(mktemp)" \
+    && wget -O "$TEMP_DEB" 'https://github.com/PowerShell/PowerShell/releases/download/v7.4.0/powershell_7.4.0-1.deb_amd64.deb' \
+    && dpkg -i "$TEMP_DEB" \
+    && rm -f "$TEMP_DEB"
+
+RUN TEMP_DEB="$(mktemp)" \
     && wget -O "$TEMP_DEB" 'https://releases.hashicorp.com/vagrant/2.3.7/vagrant_2.3.7-1_amd64.deb' \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
