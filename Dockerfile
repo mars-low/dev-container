@@ -292,7 +292,6 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
 
 RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/jesseduffield/lazydocker@latest \
-    && go install github.com/antonmedv/fx@latest \
     && go install github.com/rs/curlie@latest \
     && go install github.com/arl/gitmux@latest \
     && go install github.com/noahgorstein/jqp@latest \
@@ -303,6 +302,9 @@ RUN wget -O "$HOME/bin/bazelisk" 'https://github.com/bazelbuild/bazelisk/release
 
 RUN wget -O "$HOME/bin/bombardier" 'https://github.com/codesenberg/bombardier/releases/download/v1.2.6/bombardier-linux-amd64' \
     && chmod +x "$HOME/bin/bombardier"
+
+RUN wget -O "$HOME/bin/fx" 'https://github.com/antonmedv/fx/releases/download/31.0.0/fx_linux_amd64' \
+    && chmod +x "$HOME/bin/fx"
 
 RUN pipx install r2env \
     && r2env init \
