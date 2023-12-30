@@ -268,6 +268,13 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
     && rm "$TEMP_TAR_GZ"
 
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/chmln/sd/releases/download/v1.0.0/sd-v1.0.0-x86_64-unknown-linux-musl.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/sd-v1.0.0-x86_64-unknown-linux-musl/sd" "$HOME/bin" \
+    && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
     # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found
 # RUN TEMP_ZIP="$(mktemp)" \
 #     TEMP_DIR="$(mktemp -d)" \
