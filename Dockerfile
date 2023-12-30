@@ -153,10 +153,6 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && rm "$TEMP_TAR_GZ"
 
 RUN TEMP_TAR_GZ="$(mktemp)" \
-    && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
-    && rm "$TEMP_TAR_GZ"
-
-RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
     && wget -O "$TEMP_TAR_GZ" 'https://github.com/dandavison/delta/releases/download/0.16.5/delta-0.16.5-x86_64-unknown-linux-musl.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
