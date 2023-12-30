@@ -174,7 +174,7 @@ RUN TEMP_ZIP="$(mktemp)" \
     && mv "${TEMP_DIR}/lnav" "$HOME/bin" \
     && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
 
-RUN cargo install --locked pipr gping kmon zellij despell bob-nvim
+RUN cargo install --locked pipr kmon zellij despell bob-nvim
 
 RUN TEMP_ZIP="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
@@ -247,6 +247,11 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
     && mv "${TEMP_DIR}/btm" "$HOME/bin" \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/orf/gping/releases/download/gping-v1.16.0/gping-x86_64-unknown-linux-musl.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
+    && rm "$TEMP_TAR_GZ"
 
 RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/jesseduffield/lazydocker@latest \
