@@ -22,13 +22,17 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && bash /tmp/library-scripts/rust-debian.sh "${CARGO_HOME}" "${RUSTUP_HOME}" "${USERNAME}" "true" "true" \
     #  mono
-    && apt-get -y install gnupg ca-certificates \
+    && apt-get -y install gnupg ca-certificates apt-transport-https software-properties-common \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
     && echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
     # winehq
     && mkdir -pm755 /etc/apt/keyrings \
     && wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
-    && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/focal/winehq-focal.sources
+    && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/focal/winehq-focal.sources \
+    # xpra
+    && wget -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
+    && wget -O "/etc/apt/sources.list.d/xpra.sources" https://xpra.org/repos/focal/xpra.sources \
+    && wget -O "/etc/apt/sources.list.d/xpra-beta.sources" https://xpra.org/repos/focal/xpra-beta.sources
 
 # Add the Microsoft package repository (to install dotnet in the next step)
 RUN TEMP_DEB="$(mktemp)" \
@@ -42,6 +46,7 @@ RUN apt-get update \
     && apt-get -y install --install-recommends kicad \
     && apt-get -y install --install-recommends winehq-staging \
     && apt-get -y install dotnet-sdk-8.0 dotnet-runtime-6.0 \
+    && apt-get -y install xpra \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark termshark \
