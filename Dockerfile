@@ -3,6 +3,8 @@
 FROM mcr.microsoft.com/devcontainers/universal:2.4.2-linux
 
 COPY library-scripts/*.sh /tmp/library-scripts/
+
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 # ** Install additional packages. **
 USER root
 
@@ -203,3 +205,6 @@ RUN bob install v0.9.1 && bob use v0.9.1
 ENV CARGO_HOME="$HOME/.cargo" \
     PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
 
+# Set dotnet installed with apt as default
+ENV PATH="/usr/bin:${PATH}"
+ENV DOTNET_ROOT="/usr/share/dotnet"
