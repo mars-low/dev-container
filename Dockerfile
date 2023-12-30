@@ -22,7 +22,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install tshark termshark \
     && apt-get -y install bat neofetch \
     && apt-get -y install asciinema \
-    && apt-get -y install usbutils adb  \
+    && apt-get -y install usbutils adb \
+    && apt-get -y install glslang-tools texinfo pandoc novnc \
+    && apt-get -y install bmon slurm tcptrack nethogs \
+    && apt-get -y install config-package-dev debhelper-compat golang \
+    && apt-get -y install iputils-ping traceroute inxi \
+    && apt-get -y install imagemagick inkscape \
     && apt-get -y install cpio iperf tzdata cpu-checker \
     && apt-get -y install telnet netcat socat \
     && apt-get -y install gdb-multiarch htop \
@@ -117,9 +122,13 @@ RUN pipx install r2env \
     && r2env add radare2@git
 
 RUN pipx install gdbgui \
-    # && pipx install ptpython \
-    # && pipx install bpython \
-    && pipx install codechecker
+    && pipx install flawfinder \
+    && pipx install lizard \
+    && pipx install codechecker \
+    && pipx install ptpython \
+    && pipx install bpython \
+    && pipx install bumble \
+    && pipx install meson
 
 RUN dotnet tool install -g dotnet-repl \
     && dotnet tool install -g dotnet-example \ 
