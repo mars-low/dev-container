@@ -174,7 +174,14 @@ RUN TEMP_ZIP="$(mktemp)" \
     && mv "${TEMP_DIR}/lnav" "$HOME/bin" \
     && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
 
-RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
+RUN cargo install --locked exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
+
+RUN TEMP_ZIP="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_ZIP" 'https://github.com/Canop/broot/releases/download/v1.30.2/broot_1.30.2.zip' \
+    && unzip "$TEMP_ZIP" -d "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/x86_64-unknown-linux-musl/broot" "$HOME/bin" \
+    && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
 
 RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/jesseduffield/lazydocker@latest \
