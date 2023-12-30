@@ -7,16 +7,24 @@ COPY library-scripts/*.sh /tmp/library-scripts/
 USER root
 
 RUN export DEBIAN_FRONTEND=noninteractive \ 
+    && dpkg --add-architecture i386 \ # winehq
     && add-apt-repository --yes ppa:kicad/kicad-7.0-releases \
     && apt-get update \
     && bash /tmp/library-scripts/rust-debian.sh "${CARGO_HOME}" "${RUSTUP_HOME}" "${USERNAME}" "true" "true" \
+    #  mono
     && apt-get -y install gnupg ca-certificates \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
     && echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
-    && apt-get update \
+    # winehq
+    && mkdir -pm755 /etc/apt/keyrings \
+    && wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
+    && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/focal/winehq-focal.sources
+
+RUN apt-get update \
     && apt-get -y install mono-complete \
     && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
     && apt-get -y install --install-recommends kicad \
+    && apt-get -y install --install-recommends winehq-staging \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark termshark \
