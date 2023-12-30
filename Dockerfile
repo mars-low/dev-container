@@ -45,7 +45,7 @@ RUN apt-get update \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark termshark \
-    && apt-get -y install bat neofetch \
+    && apt-get -y install bat neofetch ffmpeg gifsicle \
     && apt-get -y install asciinema \
     && apt-get -y install usbutils adb \
     && apt-get -y install glslang-tools texinfo pandoc novnc \
@@ -71,6 +71,11 @@ RUN apt-get update \
     # && wget 'https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb' \
     # && apt-get -y install ./nvim-linux64.deb && rm -f ./nvim-linux64.deb \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+
+RUN TEMP_DEB="$(mktemp)" \
+    && wget -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.20.0/code-server_4.20.0_amd64.deb' \
+    && dpkg -i "$TEMP_DEB" \
+    && rm -f "$TEMP_DEB"
 
 RUN TEMP_DEB="$(mktemp)" \
     && wget -O "$TEMP_DEB" 'https://github.com/PowerShell/PowerShell/releases/download/v7.4.0/powershell_7.4.0-1.deb_amd64.deb' \
