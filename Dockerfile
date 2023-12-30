@@ -174,6 +174,9 @@ RUN TEMP_ZIP="$(mktemp)" \
     && mv "${TEMP_DIR}/lnav" "$HOME/bin" \
     && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
 
+# https://github.com/elkowar/pipr
+# https://github.com/bensadeh/despell
+# https://github.com/MordechaiHadad/bob
 RUN cargo install --locked pipr despell bob-nvim
 
 RUN TEMP_ZIP="$(mktemp)" \
@@ -264,6 +267,15 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && wget -O "$TEMP_TAR_GZ" 'https://github.com/zellij-org/zellij/releases/download/v0.39.2/zellij-x86_64-unknown-linux-musl.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
     && rm "$TEMP_TAR_GZ"
+
+    # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found
+# RUN TEMP_ZIP="$(mktemp)" \
+#     TEMP_DIR="$(mktemp -d)" \
+#     && wget -O "$TEMP_ZIP" 'https://github.com/MordechaiHadad/bob/releases/download/v2.7.0/bob-linux-x86_64.zip' \
+#     && unzip "$TEMP_ZIP" -d "$TEMP_DIR" \
+#     && mv "${TEMP_DIR}/bob-linux-x86_64/bob" "$HOME/bin" \
+#     && rm -rf "$TEMP_ZIP" "$TEMP_DIR" \
+#     && chmod +x "$HOME/bin/bob"
 
 RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/jesseduffield/lazydocker@latest \
