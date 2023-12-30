@@ -296,12 +296,13 @@ RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/rs/curlie@latest \
     && go install github.com/arl/gitmux@latest \
     && go install github.com/noahgorstein/jqp@latest \
-    && go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest \
-    && go install github.com/codesenberg/bombardier@latest \
-    && go install github.com/bazelbuild/bazelisk@latest
+    && go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest
 
 RUN wget -O "$HOME/bin/bazelisk" 'https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-amd64' \
     && chmod +x "$HOME/bin/bazelisk"
+
+RUN wget -O "$HOME/bin/bombardier" 'https://github.com/codesenberg/bombardier/releases/download/v1.2.6/bombardier-linux-amd64' \
+    && chmod +x "$HOME/bin/bombardier"
 
 RUN pipx install r2env \
     && r2env init \
