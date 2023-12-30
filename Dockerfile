@@ -103,11 +103,6 @@ RUN TEMP_DEB="$(mktemp)" \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
 
-RUN TEMP_DEB="$(mktemp)" \
-    && wget -O "$TEMP_DEB" 'https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_amd64.deb' \
-    && dpkg -i "$TEMP_DEB" \
-    && rm -f "$TEMP_DEB"
-
 RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
     && wget -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz' \
@@ -166,6 +161,13 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && wget -O "$TEMP_TAR_GZ" 'https://dev.yorhel.nl/download/ncdu-2.2.1-linux-x86_64.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
     && rm "$TEMP_TAR_GZ"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_x86_64.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/duf" "$HOME/bin" \
+    && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
 RUN TEMP_ZIP="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
