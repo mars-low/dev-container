@@ -5,9 +5,17 @@ FROM mcr.microsoft.com/devcontainers/universal:2.4.2-linux
 COPY library-scripts/*.sh /tmp/library-scripts/
 
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
-# ** Install additional packages. **
+
+ENV HOME=/home/codespace \
+    SHELL=/usr/bin/zsh
+
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME="$HOME/.cargo" \
+    PATH="$HOME/.cargo/bin:${PATH}"
+
 USER root
 
+# ** Install additional packages. **
 RUN export DEBIAN_FRONTEND=noninteractive \ 
     && dpkg --add-architecture i386 \ # winehq
     && add-apt-repository --yes ppa:kicad/kicad-7.0-releases \
@@ -115,13 +123,42 @@ RUN TEMP_DEB="$(mktemp)" \
     && wget -O "$TEMP_DEB" 'https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_amd64.deb' \
     && dpkg -i "$TEMP_DEB" \
     && rm -f "$TEMP_DEB"
-# These do not need sudo access to install
+# RUN wget https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-linux-x86_64.sh \
+    # && chmod +x cmake-3.25.2-linux-x86_64.sh \
+    # && ./cmake-3.25.2-linux-x86_64.sh --skip-license --include-subdir \
+    # && rm -f cmake-3.25.2-linux-x86_64.sh
 
-ENV RUSTUP_HOME=/usr/local/rustup \
-    CARGO_HOME=/usr/local/cargo \
-    PATH=/usr/local/cargo/bin:$PATH \
-    HOME=/home/codespace \
-    SHELL=/usr/bin/zsh
+RUN chown -R codespace:codespace /home/codespace/
+RUN chmod 755 /home/codespace/
+USER codespace
+WORKDIR /home/codespace
+
+# Set dotnet installed with apt as default
+ENV PATH="/usr/bin:${PATH}" \
+    DOTNET_ROOT="/usr/share/dotnet"
+
+RUN mkdir -p "$HOME/bin"
+
+# These do not need sudo access to install
+RUN TEMP_TAR="$(mktemp)" \
+    TEMP_PECO_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_TAR" 'https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz' \
+    && tar -zxf "$TEMP_TAR" -C "$TEMP_PECO_DIR" \
+    && mv "${TEMP_PECO_DIR}/peco_linux_amd64/peco" "$HOME/bin" \
+    && rm -rf "$TEMP_TAR" "$TEMP_PECO_DIR"
+
+RUN TEMP_TAR="$(mktemp)" \
+    && wget -O "$TEMP_TAR" 'https://dev.yorhel.nl/download/ncdu-2.2.1-linux-x86_64.tar.gz' \
+    && tar -zxf "$TEMP_TAR" -C "$HOME/bin" \
+    && rm "$TEMP_TAR"
+
+RUN TEMP_ZIP="$(mktemp)" \
+    TEMP_LNAV_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_ZIP" 'https://github.com/tstack/lnav/releases/download/v0.11.1/lnav-0.11.1-x86_64-linux-musl.zip' \
+    && unzip -j "$TEMP_ZIP" -d "$TEMP_LNAV_DIR" \
+    && mv "${TEMP_LNAV_DIR}/lnav" "$HOME/bin" \
+    && rm -rf "$TEMP_ZIP" "$TEMP_LNAV_DIR"
+
 RUN cargo install --locked broot exa starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
 
 RUN go install github.com/jesseduffield/lazygit@latest \
@@ -167,44 +204,9 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
 
 RUN vagrant plugin install vagrant-libvirt
 
-RUN mkdir -p "$HOME/bin"
-
-RUN TEMP_TAR="$(mktemp)" \
-    TEMP_PECO_DIR="$(mktemp -d)" \
-    && wget -O "$TEMP_TAR" 'https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz' \
-    && tar -zxf "$TEMP_TAR" -C "$TEMP_PECO_DIR" \
-    && mv "${TEMP_PECO_DIR}/peco_linux_amd64/peco" "$HOME/bin" \
-    && rm -rf "$TEMP_TAR" "$TEMP_PECO_DIR"
-
-RUN TEMP_TAR="$(mktemp)" \
-    && wget -O "$TEMP_TAR" 'https://dev.yorhel.nl/download/ncdu-2.2.1-linux-x86_64.tar.gz' \
-    && tar -zxf "$TEMP_TAR" -C "$HOME/bin" \
-    && rm "$TEMP_TAR"
-
-RUN TEMP_ZIP="$(mktemp)" \
-    TEMP_LNAV_DIR="$(mktemp -d)" \
-    && wget -O "$TEMP_ZIP" 'https://github.com/tstack/lnav/releases/download/v0.11.1/lnav-0.11.1-x86_64-linux-musl.zip' \
-    && unzip -j "$TEMP_ZIP" -d "$TEMP_LNAV_DIR" \
-    && mv "${TEMP_LNAV_DIR}/lnav" "$HOME/bin" \
-    && rm -rf "$TEMP_ZIP" "$TEMP_LNAV_DIR"
-
-# RUN wget https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-linux-x86_64.sh \
-    # && chmod +x cmake-3.25.2-linux-x86_64.sh \
-    # && ./cmake-3.25.2-linux-x86_64.sh --skip-license --include-subdir \
-    # && rm -f cmake-3.25.2-linux-x86_64.sh
-
-RUN chown -R codespace:codespace /home/codespace/
-RUN chmod 755 /home/codespace/
-USER codespace
-WORKDIR /home/codespace
-
 RUN pip3 install --user pynvim
 
 RUN bob install v0.9.1 && bob use v0.9.1 
 
-ENV CARGO_HOME="$HOME/.cargo" \
-    PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
+ENV PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
 
-# Set dotnet installed with apt as default
-ENV PATH="/usr/bin:${PATH}"
-ENV DOTNET_ROOT="/usr/share/dotnet"
