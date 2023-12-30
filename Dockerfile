@@ -33,7 +33,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     # xpra
     && wget -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
     && wget -O "/etc/apt/sources.list.d/xpra.sources" https://xpra.org/repos/focal/xpra.sources \
-    && wget -O "/etc/apt/sources.list.d/xpra-beta.sources" https://xpra.org/repos/focal/xpra-beta.sources
+    && wget -O "/etc/apt/sources.list.d/xpra-beta.sources" https://xpra.org/repos/focal/xpra-beta.sources \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 # Add the Microsoft package repository (to install dotnet in the next step)
 RUN TEMP_DEB="$(mktemp)" \
@@ -75,9 +76,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install apparmor qemu qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
     && apt-get -y install xfce4 xfce4-goodies tightvncserver \
     && curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly \
-    # && wget 'https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.deb' \
-    # && apt-get -y install ./nvim-linux64.deb && rm -f ./nvim-linux64.deb \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN TEMP_DEB="$(mktemp)" \
     && wget -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.20.0/code-server_4.20.0_amd64.deb' \
