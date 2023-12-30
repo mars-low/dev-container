@@ -291,7 +291,6 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
 #     && chmod +x "$HOME/bin/bob"
 
 RUN go install github.com/jesseduffield/lazygit@latest \
-    && go install github.com/jesseduffield/lazydocker@latest \
     && go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest
 
 RUN wget -O "$HOME/bin/bazelisk" 'https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-amd64' \
@@ -322,6 +321,13 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && wget -O "$TEMP_TAR_GZ" 'https://github.com/rs/curlie/releases/download/v1.7.2/curlie_1.7.2_linux_amd64.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
     && mv "${TEMP_DIR}/curlie" "$HOME/bin" \
+    && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/jesseduffield/lazydocker/releases/download/v0.23.1/lazydocker_0.23.1_Linux_x86_64.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/lazydocker" "$HOME/bin" \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
 RUN pipx install r2env \
