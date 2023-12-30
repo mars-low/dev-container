@@ -300,6 +300,9 @@ RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/codesenberg/bombardier@latest \
     && go install github.com/bazelbuild/bazelisk@latest
 
+RUN wget -O "$HOME/bin/bazelisk" 'https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-amd64' \
+    && chmod +x "$HOME/bin/bazelisk"
+
 RUN pipx install r2env \
     && r2env init \
     && r2env add radare2@git
