@@ -4,7 +4,8 @@ FROM mcr.microsoft.com/devcontainers/universal:2.4.2-linux
 
 COPY library-scripts/*.sh /tmp/library-scripts/
 
-ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
+    DOTNET_NOLOGO=1
 
 ENV HOME=/home/codespace \
     SHELL=/usr/bin/zsh
