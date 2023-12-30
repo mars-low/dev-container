@@ -174,7 +174,7 @@ RUN TEMP_ZIP="$(mktemp)" \
     && mv "${TEMP_DIR}/lnav" "$HOME/bin" \
     && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
 
-RUN cargo install --locked starship fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
+RUN cargo install --locked fd-find navi lsd gitui hyperfine tokei du-dust grex pipr bottom gping kmon zellij despell bob-nvim
 
 RUN TEMP_ZIP="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
@@ -185,6 +185,11 @@ RUN TEMP_ZIP="$(mktemp)" \
 
 RUN TEMP_TAR_GZ="$(mktemp)" \
     && wget -O "$TEMP_TAR_GZ" 'https://github.com/eza-community/eza/releases/download/v0.17.0/eza_x86_64-unknown-linux-musl.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
+    && rm "$TEMP_TAR_GZ"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    && wget -O "$TEMP_TAR_GZ" 'https://github.com/starship/starship/releases/download/v1.17.0/starship-x86_64-unknown-linux-musl.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
     && rm "$TEMP_TAR_GZ"
 
