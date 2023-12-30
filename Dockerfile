@@ -147,7 +147,9 @@ WORKDIR /home/codespace
 ENV PATH="/usr/bin:${PATH}" \
     DOTNET_ROOT="/usr/share/dotnet"
 
-ENV GOPATH="$HOME/go"
+ENV GOPATH="$HOME/go" \
+    PATH="$HOME/go/bin:${PATH}"
+
 RUN go env -w GOPATH=$GOPATH
 
 RUN mkdir -p "$HOME/bin"
