@@ -205,6 +205,10 @@ RUN dotnet tool install -g dotnet-repl \
     && dotnet tool install -g dotnet-script \
     && dotnet tool install -g dotnet-counters \ 
     && dotnet tool install -g dotnet-trace \
+    && dotnet tool install -g dotnet-ef \
+    && dotnet tool install -g minicover \
+    && dotnet tool install -g Husky \
+    && dotnet tool install -g dotnet-reportgenerator-globaltool \
     && dotnet tool install -g csharprepl \
     && dotnet tool install -g docfx \
     && dotnet tool install -g Roslynator.DotNet.Cli
