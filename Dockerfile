@@ -147,6 +147,9 @@ WORKDIR /home/codespace
 ENV PATH="/usr/bin:${PATH}" \
     DOTNET_ROOT="/usr/share/dotnet"
 
+ENV GOPATH="$HOME/go"
+RUN go env -w GOPATH=$GOPATH
+
 RUN mkdir -p "$HOME/bin"
 
 RUN TEMP_TAR="$(mktemp)" \
