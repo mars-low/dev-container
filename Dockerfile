@@ -109,6 +109,7 @@ RUN go install github.com/jesseduffield/lazygit@latest \
     && go install github.com/arl/gitmux@latest \
     && go install github.com/noahgorstein/jqp@latest \
     && go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest \
+    && go install github.com/codesenberg/bombardier@latest \
     && go install github.com/bazelbuild/bazelisk@latest
 
 RUN pipx install r2env \
