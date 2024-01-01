@@ -26,14 +26,13 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark \
-    && apt-get -y install neofetch ffmpeg gifsicle \
+    && apt-get -y install neofetch gifsicle \
     && apt-get -y install asciinema \
     && apt-get -y install usbutils adb \
     && apt-get -y install glslang-tools texinfo pandoc novnc \
     && apt-get -y install bmon slurm tcptrack nethogs \
     && apt-get -y install config-package-dev debhelper-compat golang \
     && apt-get -y install iputils-ping traceroute inxi \
-    && apt-get -y install imagemagick inkscape \
     && apt-get -y install cpio iperf tzdata cpu-checker \
     && apt-get -y install telnet netcat socat \
     && apt-get -y install gdb-multiarch htop \
