@@ -189,9 +189,8 @@ RUN TEMP_ZIP="$(mktemp)" \
     && mv "${TEMP_DIR}/lnav" "$HOME/bin" \
     && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
 
-# https://github.com/elkowar/pipr
 # https://github.com/bensadeh/despell
-RUN cargo install --locked pipr despell
+RUN cargo install --locked despell
 
 RUN TEMP_ZIP="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
