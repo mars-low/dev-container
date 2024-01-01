@@ -75,7 +75,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install clang clang-tidy cppcheck gcc-multilib lzma \
     && apt-get -y install apparmor qemu qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
     && apt-get -y install xfce4 xfce4-goodies tightvncserver \
-    && curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN TEMP_DEB="$(mktemp)" \
@@ -143,6 +142,11 @@ ENV GO111MODULE=on \
 RUN go env -w GOPATH="$GOPATH"
 
 RUN mkdir -p "$HOME/bin"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    && wget -q -O "$TEMP_TAR_GZ" 'https://github.com/cantino/mcfly/releases/download/v0.8.4/mcfly-v0.8.4-x86_64-unknown-linux-musl.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
+    && rm "$TEMP_TAR_GZ"
 
 RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
