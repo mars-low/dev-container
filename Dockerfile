@@ -143,6 +143,9 @@ RUN go env -w GOPATH="$GOPATH"
 
 RUN mkdir -p "$HOME/bin"
 
+RUN wget -q -O "$HOME/bin/hadolint" 'https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64' \
+    && chmod +x "$HOME/bin/hadolint"
+
 RUN TEMP_TAR_GZ="$(mktemp)" \
     && wget -q -O "$TEMP_TAR_GZ" 'https://github.com/cantino/mcfly/releases/download/v0.8.4/mcfly-v0.8.4-x86_64-unknown-linux-musl.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
