@@ -14,8 +14,7 @@ ENV CARGO_HOME="$HOME/.cargo" \
 USER root
 
 # ** Install additional packages. **
-RUN export DEBIAN_FRONTEND=noninteractive \ 
-    && dpkg --add-architecture i386 \
+RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     # xpra
     && wget -nv -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
