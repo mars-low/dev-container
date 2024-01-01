@@ -15,18 +15,14 @@ USER root
 
 # ** Install additional packages. **
 RUN export DEBIAN_FRONTEND=noninteractive \
-    && apt-get update \
     # xpra
     && wget -nv -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
-    && wget -nv -O "/etc/apt/sources.list.d/xpra.sources" https://xpra.org/repos/focal/xpra.sources \
-    && wget -nv -O "/etc/apt/sources.list.d/xpra-beta.sources" https://xpra.org/repos/focal/xpra-beta.sources \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
-RUN export DEBIAN_FRONTEND=noninteractive \
+    && wget -nv -O "/etc/apt/sources.list.d/xpra.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra.sources \
+    && wget -nv -O "/etc/apt/sources.list.d/xpra-beta.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra-beta.sources \
     && apt-get update \
+    && apt-get -y install xpra \
     && apt-get -y install mono-complete \
     && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
-    && apt-get -y install xpra \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark \
