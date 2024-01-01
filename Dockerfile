@@ -126,8 +126,7 @@ RUN ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime \
 # https://github.com/dotnet/runtime/pull/90343#issue-1845914061
 RUN rm -rf /tmp/.dotnet/shm/ /tmp/.dotnet/lockfiles/
 
-RUN chown -R codespace:codespace /home/codespace/
-RUN chmod 755 /home/codespace/
+RUN chown -R codespace:codespace /home/codespace/ && chmod 755 /home/codespace/
 USER codespace
 WORKDIR /home/codespace
 
@@ -405,7 +404,7 @@ RUN dotnet tool install -g dotnet-repl \
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
     && $HOME/.fzf/install --no-update-rc --completion --key-bindings
 
-RUN vagrant plugin install vagrant-libvirt
-RUN python3 -m pip install virtualenv
-RUN python3 -m pip install --user pynvim
+RUN vagrant plugin install vagrant-libvirt \
+    && python3 -m pip install --no-cache-dir virtualenv pynvim
+
 RUN bob install v0.9.4 && bob use v0.9.4
