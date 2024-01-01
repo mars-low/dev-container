@@ -363,6 +363,11 @@ WORKDIR /home/codespace
 #     && mv "${TEMP_DIR}/lazygit" "$HOME/bin" \
 #     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
+# RUN TEMP_TAR_GZ="$(mktemp)" \
+#     && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/junegunn/fzf/releases/download/0.45.0/fzf-0.45.0-linux_amd64.tar.gz' \
+#     && tar -zxf "$TEMP_TAR_GZ" -C "$HOME/bin" \
+#     && rm "$TEMP_TAR_GZ"
+
 # RUN TEMP_ZIP="$(mktemp)" \
 #     TEMP_DIR="$(mktemp -d)" \
 #     && wget -nv -O "$TEMP_ZIP" 'https://github.com/MordechaiHadad/bob/releases/download/v2.7.0/bob-linux-x86_64.zip' \
