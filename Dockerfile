@@ -1,8 +1,6 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/codespaces-linux/.devcontainer/base.Dockerfile
+# See here for image contents: https://github.com/mars-low/devcontainer
 
-FROM mcr.microsoft.com/devcontainers/universal:2.4.2-linux
-
-COPY library-scripts/*.sh /tmp/library-scripts/
+FROM ghcr.io/mars-low/devcontainer:latest
 
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_NOLOGO=1
@@ -10,8 +8,7 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 ENV HOME=/home/codespace \
     SHELL=/usr/bin/zsh
 
-ENV RUSTUP_HOME=/usr/local/rustup \
-    CARGO_HOME="$HOME/.cargo" \
+ENV CARGO_HOME="$HOME/.cargo" \
     PATH="$HOME/.cargo/bin:${PATH}"
 
 USER root
@@ -21,7 +18,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && dpkg --add-architecture i386 \
     && add-apt-repository --yes ppa:kicad/kicad-7.0-releases \
     && apt-get update \
-    && bash /tmp/library-scripts/rust-debian.sh "${CARGO_HOME}" "${RUSTUP_HOME}" "${USERNAME}" "true" "true" \
     #  mono
     && apt-get -y install gnupg ca-certificates apt-transport-https software-properties-common \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
@@ -34,7 +30,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && wget -nv -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
     && wget -nv -O "/etc/apt/sources.list.d/xpra.sources" https://xpra.org/repos/focal/xpra.sources \
     && wget -nv -O "/etc/apt/sources.list.d/xpra-beta.sources" https://xpra.org/repos/focal/xpra-beta.sources \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
