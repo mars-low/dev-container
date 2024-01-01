@@ -16,7 +16,6 @@ USER root
 # ** Install additional packages. **
 RUN export DEBIAN_FRONTEND=noninteractive \ 
     && dpkg --add-architecture i386 \
-    && add-apt-repository --yes ppa:kicad/kicad-7.0-releases \
     && apt-get update \
     #  mono
     && apt-get -y install gnupg ca-certificates apt-transport-https software-properties-common \
@@ -36,7 +35,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get -y install mono-complete \
     && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
-    && apt-get -y install --install-recommends kicad \
     && apt-get -y install --install-recommends winehq-staging \
     && apt-get -y install xpra \
     && apt-get -y install screen zip unzip \
