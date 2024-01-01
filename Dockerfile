@@ -17,10 +17,6 @@ USER root
 RUN export DEBIAN_FRONTEND=noninteractive \ 
     && dpkg --add-architecture i386 \
     && apt-get update \
-    #  mono
-    && apt-get -y install gnupg ca-certificates apt-transport-https software-properties-common \
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-    && echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
     # xpra
     && wget -nv -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
     && wget -nv -O "/etc/apt/sources.list.d/xpra.sources" https://xpra.org/repos/focal/xpra.sources \
