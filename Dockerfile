@@ -15,7 +15,6 @@ USER root
 
 # ** Install additional packages. **
 RUN export DEBIAN_FRONTEND=noninteractive \
-    # xpra
     && wget -nv -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
     && wget -nv -O "/etc/apt/sources.list.d/xpra.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra.sources \
     && wget -nv -O "/etc/apt/sources.list.d/xpra-beta.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra-beta.sources \
@@ -34,7 +33,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install config-package-dev debhelper-compat golang \
     && apt-get -y install iputils-ping traceroute inxi \
     && apt-get -y install cpio iperf tzdata cpu-checker \
-    && apt-get -y install telnet netcat socat \
+    && apt-get -y install telnet netcat-openbsd socat \
     && apt-get -y install gdb-multiarch htop \
     && apt-get -y install bubblewrap python3-pip \
     && apt-get -y install iptables iproute2 dnsmasq net-tools ca-certificates nftables tcpdump procps \
@@ -45,7 +44,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi \
     && apt-get -y install openscad xvfb flatpak nxagent \
     && apt-get -y install clang clang-tidy cppcheck gcc-multilib lzma \
-    && apt-get -y install apparmor qemu qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
+    && apt-get -y install apparmor qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
     && apt-get -y install xfce4 xfce4-goodies tightvncserver \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
@@ -106,6 +105,18 @@ ENV GO111MODULE=on \
     PATH="$HOME/go/bin:${PATH}"
 
 RUN go env -w GOPATH="$GOPATH"
+
+RUN pipx install r2env \
+    && r2env init \
+    && r2env add radare2@git
+
+ENV PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
+
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
+    && $HOME/.fzf/install --no-update-rc --completion --key-bindings
+
+RUN vagrant plugin install vagrant-libvirt \
+    && python3 -m pip install --no-cache-dir virtualenv pynvim
 
 RUN mkdir -p "$HOME/bin"
 
@@ -180,8 +191,7 @@ RUN TEMP_ZIP="$(mktemp)" \
 
 # https://github.com/elkowar/pipr
 # https://github.com/bensadeh/despell
-# https://github.com/MordechaiHadad/bob
-RUN cargo install --locked pipr despell bob-nvim
+RUN cargo install --locked pipr despell
 
 RUN TEMP_ZIP="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
@@ -279,14 +289,13 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && mv "${TEMP_DIR}/sd-v1.0.0-x86_64-unknown-linux-musl/sd" "$HOME/bin" \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
-# /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found
-# RUN TEMP_ZIP="$(mktemp)" \
-#     TEMP_DIR="$(mktemp -d)" \
-#     && wget -nv -O "$TEMP_ZIP" 'https://github.com/MordechaiHadad/bob/releases/download/v2.7.0/bob-linux-x86_64.zip' \
-#     && unzip "$TEMP_ZIP" -d "$TEMP_DIR" \
-#     && mv "${TEMP_DIR}/bob-linux-x86_64/bob" "$HOME/bin" \
-#     && rm -rf "$TEMP_ZIP" "$TEMP_DIR" \
-#     && chmod +x "$HOME/bin/bob"
+RUN TEMP_ZIP="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -nv -O "$TEMP_ZIP" 'https://github.com/MordechaiHadad/bob/releases/download/v2.7.0/bob-linux-x86_64.zip' \
+    && unzip "$TEMP_ZIP" -d "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/bob-linux-x86_64/bob" "$HOME/bin" \
+    && rm -rf "$TEMP_ZIP" "$TEMP_DIR" \
+    && chmod +x "$HOME/bin/bob"
 
 # RUN go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest
 
@@ -334,12 +343,6 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && mv "${TEMP_DIR}/lazygit" "$HOME/bin" \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
-RUN pipx install r2env \
-    && r2env init \
-    && r2env add radare2@git
-
-ENV PATH="${PATH}:$HOME/.r2env/versions/radare2@git/bin/"
-
 RUN pipx install gdbgui \
     && pipx install flawfinder \
     && pipx install lizard \
@@ -367,12 +370,6 @@ RUN dotnet tool install -g dotnet-repl \
     && dotnet tool install -g csharprepl \
     && dotnet tool install -g docfx \
     && dotnet tool install -g Roslynator.DotNet.Cli
-
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
-    && $HOME/.fzf/install --no-update-rc --completion --key-bindings
-
-RUN vagrant plugin install vagrant-libvirt \
-    && python3 -m pip install --no-cache-dir virtualenv pynvim
 
 RUN bob install v0.9.4 && bob use v0.9.4
 ENV PATH="${PATH}:$HOME/.local/share/bob/nvim-bin"
