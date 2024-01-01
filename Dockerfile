@@ -36,19 +36,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && wget -nv -O "/etc/apt/sources.list.d/xpra-beta.sources" https://xpra.org/repos/focal/xpra-beta.sources \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
-# Add the Microsoft package repository (to install dotnet in the next step)
-RUN TEMP_DEB="$(mktemp)" \
-    && wget -nv -O "$TEMP_DEB" 'https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb' \
-    && dpkg -i "$TEMP_DEB" \
-    && rm -f "$TEMP_DEB"
-
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get -y install mono-complete \
     && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
     && apt-get -y install --install-recommends kicad \
     && apt-get -y install --install-recommends winehq-staging \
-    && apt-get -y install dotnet-sdk-8.0 dotnet-runtime-6.0 \
     && apt-get -y install xpra \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
