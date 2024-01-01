@@ -118,6 +118,40 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
 RUN vagrant plugin install vagrant-libvirt \
     && python3 -m pip install --no-cache-dir virtualenv pynvim
 
+# https://github.com/bensadeh/despell
+RUN cargo install --locked despell
+
+# Problem with `go install`: can't load package: package github.com/apache/mynewt-mcumgr-cli/mcumgr@latest: can only use path@version syntax with 'go get'
+# RUN go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest
+
+RUN pipx install gdbgui \
+    && pipx install flawfinder \
+    && pipx install lizard \
+    && pipx install codechecker \
+    && pipx install ptpython \
+    && pipx install bpython \
+    && pipx install bumble \
+    && pipx install meson
+
+RUN dotnet tool install -g dotnet-repl \
+    && dotnet tool install -g dotnet-example \ 
+    && dotnet tool install -g dotnet-sos \
+    && dotnet tool install -g dotnet-dump \
+    && dotnet tool install -g dotnet-symbol \ 
+    && dotnet tool install -g dotnet-monitor \
+    && dotnet tool install -g dotnet-gcdump \
+    && dotnet tool install -g dotnet-suggest \
+    && dotnet tool install -g dotnet-script \
+    && dotnet tool install -g dotnet-counters \ 
+    && dotnet tool install -g dotnet-trace \
+    && dotnet tool install -g dotnet-ef \
+    && dotnet tool install -g minicover \
+    && dotnet tool install -g Husky \
+    && dotnet tool install -g dotnet-reportgenerator-globaltool \
+    && dotnet tool install -g csharprepl \
+    && dotnet tool install -g docfx \
+    && dotnet tool install -g Roslynator.DotNet.Cli
+
 RUN mkdir -p "$HOME/bin"
 
 RUN wget -nv -O "$HOME/bin/hadolint" 'https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64' \
@@ -188,9 +222,6 @@ RUN TEMP_ZIP="$(mktemp)" \
     && unzip -j "$TEMP_ZIP" -d "$TEMP_DIR" \
     && mv "${TEMP_DIR}/lnav" "$HOME/bin" \
     && rm -rf "$TEMP_ZIP" "$TEMP_DIR"
-
-# https://github.com/bensadeh/despell
-RUN cargo install --locked despell
 
 RUN TEMP_ZIP="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
@@ -288,16 +319,6 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && mv "${TEMP_DIR}/sd-v1.0.0-x86_64-unknown-linux-musl/sd" "$HOME/bin" \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
-RUN TEMP_ZIP="$(mktemp)" \
-    TEMP_DIR="$(mktemp -d)" \
-    && wget -nv -O "$TEMP_ZIP" 'https://github.com/MordechaiHadad/bob/releases/download/v2.7.0/bob-linux-x86_64.zip' \
-    && unzip "$TEMP_ZIP" -d "$TEMP_DIR" \
-    && mv "${TEMP_DIR}/bob-linux-x86_64/bob" "$HOME/bin" \
-    && rm -rf "$TEMP_ZIP" "$TEMP_DIR" \
-    && chmod +x "$HOME/bin/bob"
-
-# RUN go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest
-
 RUN wget -nv -O "$HOME/bin/bazelisk" 'https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-amd64' \
     && chmod +x "$HOME/bin/bazelisk"
 
@@ -342,33 +363,13 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     && mv "${TEMP_DIR}/lazygit" "$HOME/bin" \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
-RUN pipx install gdbgui \
-    && pipx install flawfinder \
-    && pipx install lizard \
-    && pipx install codechecker \
-    && pipx install ptpython \
-    && pipx install bpython \
-    && pipx install bumble \
-    && pipx install meson
-
-RUN dotnet tool install -g dotnet-repl \
-    && dotnet tool install -g dotnet-example \ 
-    && dotnet tool install -g dotnet-sos \
-    && dotnet tool install -g dotnet-dump \
-    && dotnet tool install -g dotnet-symbol \ 
-    && dotnet tool install -g dotnet-monitor \
-    && dotnet tool install -g dotnet-gcdump \
-    && dotnet tool install -g dotnet-suggest \
-    && dotnet tool install -g dotnet-script \
-    && dotnet tool install -g dotnet-counters \ 
-    && dotnet tool install -g dotnet-trace \
-    && dotnet tool install -g dotnet-ef \
-    && dotnet tool install -g minicover \
-    && dotnet tool install -g Husky \
-    && dotnet tool install -g dotnet-reportgenerator-globaltool \
-    && dotnet tool install -g csharprepl \
-    && dotnet tool install -g docfx \
-    && dotnet tool install -g Roslynator.DotNet.Cli
+RUN TEMP_ZIP="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -nv -O "$TEMP_ZIP" 'https://github.com/MordechaiHadad/bob/releases/download/v2.7.0/bob-linux-x86_64.zip' \
+    && unzip "$TEMP_ZIP" -d "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/bob-linux-x86_64/bob" "$HOME/bin" \
+    && rm -rf "$TEMP_ZIP" "$TEMP_DIR" \
+    && chmod +x "$HOME/bin/bob"
 
 RUN bob install v0.9.4 && bob use v0.9.4
 ENV PATH="${PATH}:$HOME/.local/share/bob/nvim-bin"
