@@ -21,10 +21,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install gnupg ca-certificates apt-transport-https software-properties-common \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
     && echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
-    # winehq
-    && mkdir -pm755 /etc/apt/keyrings \
-    && wget -nv -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
-    && wget -nv -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/focal/winehq-focal.sources \
     # xpra
     && wget -nv -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
     && wget -nv -O "/etc/apt/sources.list.d/xpra.sources" https://xpra.org/repos/focal/xpra.sources \
@@ -35,7 +31,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get -y install mono-complete \
     && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
-    && apt-get -y install --install-recommends winehq-staging \
     && apt-get -y install xpra \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
