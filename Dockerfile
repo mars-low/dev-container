@@ -53,7 +53,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install screen zip unzip \
     && apt-get -y install picocom minicom \
     && apt-get -y install tshark \
-    && apt-get -y install bat neofetch ffmpeg gifsicle \
+    && apt-get -y install neofetch ffmpeg gifsicle \
     && apt-get -y install asciinema \
     && apt-get -y install usbutils adb \
     && apt-get -y install glslang-tools texinfo pandoc novnc \
@@ -143,6 +143,13 @@ ENV GO111MODULE=on \
 RUN go env -w GOPATH="$GOPATH"
 
 RUN mkdir -p "$HOME/bin"
+
+RUN TEMP_TAR_GZ="$(mktemp)" \
+    TEMP_DIR="$(mktemp -d)" \
+    && wget -q -O "$TEMP_TAR_GZ" 'https://github.com/sharkdp/bat/releases/download/v0.24.0/bat-v0.24.0-x86_64-unknown-linux-musl.tar.gz' \
+    && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+    && mv "${TEMP_DIR}/bat-v0.24.0-x86_64-unknown-linux-musl/bat" "$HOME/bin" \
+    && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
 RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
