@@ -408,3 +408,4 @@ RUN vagrant plugin install vagrant-libvirt \
     && python3 -m pip install --no-cache-dir virtualenv pynvim
 
 RUN bob install v0.9.4 && bob use v0.9.4
+ENV PATH="${PATH}:$HOME/.local/share/bob/nvim-bin"
