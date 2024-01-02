@@ -42,7 +42,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install libelf-dev libevent-dev ncurses-dev build-essential bison pkg-config \
     && apt-get -y install patchelf device-tree-compiler flex ninja-build gperf \
     && apt-get -y install gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi \
-    && apt-get -y install openscad xvfb flatpak nxagent \
+    && apt-get -y install xvfb flatpak nxagent \
     && apt-get -y install clang clang-tidy cppcheck gcc-multilib lzma \
     && apt-get -y install apparmor qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
     && apt-get -y install xfce4 xfce4-goodies tightvncserver \
