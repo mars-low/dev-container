@@ -15,6 +15,7 @@ cargo install --locked despell
 export GOPATH=$UTILS_PATH/go
 
 go install github.com/apache/mynewt-mcumgr-cli/mcumgr@latest
+go install mynewt.apache.org/newt/newt@latest
 
 ################ PIPX ################
 
@@ -293,6 +294,13 @@ TEMP_DIR="$(mktemp -d)" \
 && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/twpayne/chezmoi/releases/download/v2.42.3/chezmoi_2.42.3_linux-musl_amd64.tar.gz' \
 && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
 && mv "${TEMP_DIR}/chezmoi" "$BIN_PATH" \
+&& rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+TEMP_TAR_GZ="$(mktemp)" \
+TEMP_DIR="$(mktemp -d)" \
+&& wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/arduino/arduino-cli/releases/download/v0.35.0/arduino-cli_0.35.0_Linux_64bit.tar.gz' \
+&& tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+&& mv "${TEMP_DIR}/arduino-cli" "$BIN_PATH" \
 && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
 wget -nv -O "$BIN_PATH/websocat" 'https://github.com/vi/websocat/releases/download/v1.12.0/websocat.x86_64-unknown-linux-musl' \
