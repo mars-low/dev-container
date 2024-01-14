@@ -22,19 +22,14 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install xpra \
     && apt-get -y install mono-complete \
     && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
-    && apt-get -y install screen zip unzip \
-    && apt-get -y install picocom minicom \
-    && apt-get -y install tshark \
-    && apt-get -y install neofetch gifsicle \
-    && apt-get -y install asciinema \
+    && apt-get -y install screen zip unzip picocom minicom \
+    && apt-get -y install tshark neofetch gifsicle asciinema \
+    && apt-get -y install bmon slurm tcptrack nethogs iputils-ping traceroute inxi \
     && apt-get -y install usbutils adb \
     && apt-get -y install glslang-tools texinfo pandoc novnc \
-    && apt-get -y install bmon slurm tcptrack nethogs \
-    && apt-get -y install config-package-dev debhelper-compat golang \
-    && apt-get -y install iputils-ping traceroute inxi \
+    && apt-get -y install config-package-dev debhelper-compat golang protobuf-c-compiler \
     && apt-get -y install cpio iperf tzdata cpu-checker \
-    && apt-get -y install telnet netcat-openbsd socat \
-    && apt-get -y install gdb-multiarch htop \
+    && apt-get -y install telnet netcat-openbsd socat gdb-multiarch htop \
     && apt-get -y install bubblewrap python3-pip \
     && apt-get -y install iptables iproute2 dnsmasq net-tools ca-certificates nftables tcpdump procps \
     && apt-get -y install xterm scons libncursesw5 python3-sphinx \
