@@ -33,6 +33,7 @@ pipx install gdbgui \
 && pipx install bpython \
 && pipx install meson \
 && pipx install virtualenv \
+&& pipx install poetry \
 && pipx install r2env \
 && r2env init \
 && r2env add radare2@git
