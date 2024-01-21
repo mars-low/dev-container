@@ -20,7 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && wget -nv -O "/etc/apt/sources.list.d/xpra-beta.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra-beta.sources \
     && apt-get update \
     && apt-get -y install xpra \
-    && apt-get -y install mono-complete \
+    && apt-get -y install mono-complete r-base r-base-dev \
     && apt-get -y install policykit-1 libgtk2.0-0 uml-utilities gtk-sharp2 libc6-dev libgtk-3-bin \
     && apt-get -y install screen zip unzip picocom minicom \
     && apt-get -y install tshark neofetch gifsicle asciinema \
