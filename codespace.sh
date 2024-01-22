@@ -305,6 +305,13 @@ TEMP_DIR="$(mktemp -d)" \
 && mv "${TEMP_DIR}/arduino-cli" "$BIN_PATH" \
 && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
 
+TEMP_TAR_GZ="$(mktemp)" \
+TEMP_DIR="$(mktemp -d)" \
+&& wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/boyter/scc/releases/download/v3.2.0/scc_Linux_x86_64.tar.gz' \
+&& tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+&& mv "${TEMP_DIR}/scc" "$BIN_PATH" \
+&& rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
 wget -nv -O "$BIN_PATH/websocat" 'https://github.com/vi/websocat/releases/download/v1.12.0/websocat.x86_64-unknown-linux-musl' \
 && chmod +x "$BIN_PATH/websocat"
 
