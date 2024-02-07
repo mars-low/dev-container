@@ -27,7 +27,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install bmon slurm tcptrack nethogs iputils-ping traceroute inxi \
     && apt-get -y install usbutils adb \
     && apt-get -y install glslang-tools texinfo pandoc novnc \
-    && apt-get -y install config-package-dev debhelper-compat golang protobuf-c-compiler \
+    && apt-get -y install devscripts config-package-dev debhelper-compat golang protobuf-c-compiler \
     && apt-get -y install cpio iperf tzdata cpu-checker \
     && apt-get -y install telnet netcat-openbsd socat gdb-multiarch htop \
     && apt-get -y install bubblewrap python3-pip \
