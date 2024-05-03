@@ -355,6 +355,33 @@ wget -nv -O "$APP_PATH/helix" 'https://github.com/helix-editor/helix/releases/do
 wget -nv -O "$APP_PATH/magick" 'https://github.com/ImageMagick/ImageMagick/releases/download/7.1.1-24/ImageMagick--clang-x86_64.AppImage' \
 && chmod +x "$APP_PATH/magick"
 
+wget -nv -O "$APP_PATH/openscad" 'https://files.openscad.org/OpenSCAD-2021.01-x86_64.AppImage' \
+&& chmod +x "$APP_PATH/openscad"
+
+wget -nv -O "$APP_PATH/arduino-ide" 'https://github.com/arduino/arduino-ide/releases/download/2.2.1/arduino-ide_2.2.1_Linux_64bit.AppImage' \
+&& chmod +x "$APP_PATH/arduino-ide"
+
+wget -nv -O "$APP_PATH/audacity" 'https://github.com/audacity/audacity/releases/download/Audacity-3.4.2/audacity-linux-3.4.2-x64.AppImage' \
+&& chmod +x "$APP_PATH/audacity"
+
+wget -nv -O "$APP_PATH/cutter" 'https://github.com/rizinorg/cutter/releases/download/v2.3.2/Cutter-v2.3.2-Linux-x86_64.AppImage' \
+&& chmod +x "$APP_PATH/cutter"
+
+wget -nv -O "$APP_PATH/freecad" 'https://github.com/FreeCAD/FreeCAD/releases/download/0.21.1/FreeCAD_0.21.1-Linux-x86_64.AppImage' \
+&& chmod +x "$APP_PATH/freecad"
+
+wget -nv -O "$APP_PATH/krita" 'https://download.kde.org/stable/krita/5.2.2/krita-5.2.2-x86_64.appimage' \
+&& chmod +x "$APP_PATH/krita"
+
+wget -nv -O "$APP_PATH/imhex" 'https://github.com/WerWolv/ImHex/releases/download/v1.32.1/imhex-1.32.1-x86_64.AppImage' \
+&& chmod +x "$APP_PATH/imhex"
+
+wget -nv -O "$APP_PATH/inkscape" 'https://inkscape.org/gallery/item/44616/Inkscape-091e20e-x86_64.AppImage' \
+&& chmod +x "$APP_PATH/inkscape"
+
+wget -nv -O "$APP_PATH/nuclear" 'https://github.com/nukeop/nuclear/releases/download/v0.6.30/nuclear-v0.6.30.AppImage' \
+&& chmod +x "$APP_PATH/nuclear"
+
 ################ VS Code / https://open-vsx.org/ ##############
 
 code-server --install-extension alefragnani.Bookmarks #https://github.com/alefragnani/vscode-bookmarks GPL-3
