@@ -544,6 +544,19 @@ code-server --install-extension vscjava.vscode-gradle #https://github.com/micros
 code-server --install-extension eirikpre.systemverilog #https://github.com/eirikpre/VSCode-SystemVerilog MIT
 code-server --install-extension dtsvet.vscode-wasm #https://github.com/wasmerio/vscode-wasm MIT
 
+
+################ DEB ################
+
+RUN TEMP_DEB="$(mktemp)" \
+    && wget -nv -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.23.1/code-server_4.23.1_amd64.deb' \
+    && dpkg -i "$TEMP_DEB" \
+    && rm -f "$TEMP_DEB"
+
+RUN TEMP_DEB="$(mktemp)" \
+    && wget -nv -O "$TEMP_DEB" 'https://releases.hashicorp.com/vagrant/2.3.7/vagrant_2.3.7-1_amd64.deb' \
+    && dpkg -i "$TEMP_DEB" \
+    && rm -f "$TEMP_DEB"
+
 ################ MISC ################
 
 vagrant plugin install vagrant-libvirt \

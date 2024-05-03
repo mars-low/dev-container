@@ -43,16 +43,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install xfce4 xfce4-goodies tightvncserver \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-RUN TEMP_DEB="$(mktemp)" \
-    && wget -nv -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.20.0/code-server_4.20.0_amd64.deb' \
-    && dpkg -i "$TEMP_DEB" \
-    && rm -f "$TEMP_DEB"
-
-RUN TEMP_DEB="$(mktemp)" \
-    && wget -nv -O "$TEMP_DEB" 'https://releases.hashicorp.com/vagrant/2.3.7/vagrant_2.3.7-1_amd64.deb' \
-    && dpkg -i "$TEMP_DEB" \
-    && rm -f "$TEMP_DEB"
-
 RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
     && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.4/tmux-3.4.tar.gz' \
