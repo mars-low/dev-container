@@ -41,13 +41,18 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install clang clang-tidy cppcheck gcc-multilib lzma \
     && apt-get -y install apparmor qemu-kvm qemu-system-common qemu-utils libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base \
     && apt-get -y install xfce4 xfce4-goodies tightvncserver \
+    && apt-get -y install gvncviewer sysprof acpica-tools gcovr \
+    && apt-get -y install gcc-arm-none-eabi evtest nmap bwm-ng packaging-dev debian-keyring devscripts equivs mercurial mtools git-lfs gettext uncrustify sox isc-dhcp-client asciidoc xutils-dev kconfig-frontends dfu-util evtest doxygen \
+    && apt-get -y install openocd python3-serial rlwrap srecord mosquitto mosquitto-clients xorg-dev \
+    && apt-get -y install v4l-utils pulseaudio-utils pipewire-audio pipewire-audio-client-libraries pipewire-libcamera pipewire-v4l2 qsynth qjackctl wireplumber alsa-utils alsa-oss alsamixergui apulse fluidsynth fluid-soundfont-gm jack-tools drumstick-tools mpv \
+    && apt-get -y install libslirp-dev libfuse-dev libgtk-3-dev libnotify-dev libdrumstick-dev libasound2 libasound2-plugins libhidapi-hidraw0 libhidapi-libusb0 libmpfr-dev libisl-dev libudev-dev libftdi1-2 libgpiod2 libjaylink0 libjim0.81 libxapian30 libusb-1.0-0-dev \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
     && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.4/tmux-3.4.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
-    && cd "${TEMP_DIR}/tmux-3.3a" \
+    && cd "${TEMP_DIR}/tmux-3.4" \
     && ./configure && make && make install \
     && cd - \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
@@ -56,7 +61,7 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
     && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/jonas/tig/releases/download/tig-2.5.9/tig-2.5.9.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
-    && cd "${TEMP_DIR}/tig-2.5.8" \
+    && cd "${TEMP_DIR}/tig-2.5.9" \
     && make prefix=/usr/local && make install prefix=/usr/local \
     && cd - \
     && rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
