@@ -55,7 +55,7 @@ RUN TEMP_DEB="$(mktemp)" \
 
 RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
-    && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz' \
+    && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.4/tmux-3.4.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
     && cd "${TEMP_DIR}/tmux-3.3a" \
     && ./configure && make && make install \
@@ -64,7 +64,7 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
 
 RUN TEMP_TAR_GZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
-    && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/jonas/tig/releases/download/tig-2.5.8/tig-2.5.8.tar.gz' \
+    && wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/jonas/tig/releases/download/tig-2.5.9/tig-2.5.9.tar.gz' \
     && tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
     && cd "${TEMP_DIR}/tig-2.5.8" \
     && make prefix=/usr/local && make install prefix=/usr/local \
@@ -73,7 +73,7 @@ RUN TEMP_TAR_GZ="$(mktemp)" \
 
 RUN TEMP_TBZ="$(mktemp)" \
     TEMP_DIR="$(mktemp -d)" \
-    && wget -nv -O "$TEMP_TBZ" 'https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl.tbz' \
+    && wget -nv -O "$TEMP_TBZ" 'https://github.com/aristocratos/btop/releases/download/v1.3.2/btop-x86_64-linux-musl.tbz' \
     && tar xvfj "$TEMP_TBZ" -C "$TEMP_DIR" \
     && cd "${TEMP_DIR}/btop" \
     && make install && make setuid \
