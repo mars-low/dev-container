@@ -34,12 +34,11 @@ pipx install gdbgui \
 && pipx install meson \
 && pipx install virtualenv \
 && pipx install poetry \
+&& pipx install bumble \
 && pipx install git+https://github.com/randy3k/radian \
 && pipx install r2env \
 && r2env init \
 && r2env add radare2@git
-
-# pipx install bumble
 
 ################ DOTNET ################
 
@@ -544,20 +543,294 @@ code-server --install-extension vscjava.vscode-gradle #https://github.com/micros
 code-server --install-extension eirikpre.systemverilog #https://github.com/eirikpre/VSCode-SystemVerilog MIT
 code-server --install-extension dtsvet.vscode-wasm #https://github.com/wasmerio/vscode-wasm MIT
 
+################ SETUP ################
+
+sudo ln -fs /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
+sudo dpkg-reconfigure -f noninteractive tzdata
+sudo chsh -s /bin/zsh codespace
+sudo passwd codespace # interactive, set password for ssh access
+
+# Must be run from bash (not zsh) and in the home directory https://askubuntu.com/a/1159032
+cd ~
+sudo chown -R codespace:codespace !(repos)
+sudo chmod 755 !(repos)
+
+sudo usermod -a -G kvm codespace
+sudo usermod -a -G video codespace
+sudo usermod -a -G audio codespace
+sudo usermod -a -G pipewire codespace
+sudo usermod -a -G wireshark codespace
+sudo usermod -a -G dialout codespace
+sudo usermod -a -G plugdev codespace
+sudo usermod -a -G render codespace
+sudo usermod -a -G libvirt codespace
+
+# these groups do not exist yet
+# sudo usermod -a -G pulse codespace
+# sudo usermod -a -G pulse-access codespace
+# sudo usermod -a -G cvdnetwork codespace
+
+# Now logout (exit from container) and login again to reload changes.
+
+################ APT ################
+
+export DEBIAN_FRONTEND=noninteractive
+sudo wget -nv -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc
+sudo wget -nv -O "/etc/apt/sources.list.d/xpra.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra.sources
+sudo wget -nv -O "/etc/apt/sources.list.d/xpra-beta.sources" https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra-beta.sources
+sudo apt-get update
+sudo apt-get -qq install \
+xpra \
+mono-complete \
+r-base \
+r-base-dev \
+policykit-1 \
+libgtk2.0-0 \
+uml-utilities \
+gtk-sharp2 \
+libc6-dev \
+libgtk-3-bin \
+screen \
+zip \
+unzip \
+picocom \
+minicom \
+tshark \
+neofetch \
+gifsicle \
+asciinema \
+bmon \
+slurm \
+tcptrack \
+nethogs \
+iputils-ping \
+traceroute \
+inxi \
+usbutils \
+adb \
+glslang-tools \
+texinfo \
+pandoc \
+novnc \
+devscripts \
+config-package-dev \
+debhelper-compat \
+golang \
+protobuf-c-compiler \
+cpio \
+iperf \
+tzdata \
+cpu-checker \
+telnet \
+netcat-openbsd \
+socat \
+gdb-multiarch \
+htop \
+bubblewrap \
+python3-pip \
+iptables \
+iproute2 \
+dnsmasq \
+net-tools \
+ca-certificates \
+nftables \
+tcpdump \
+procps \
+xterm \
+scons \
+libncursesw5 \
+python3-sphinx \
+eslint \
+python3-proselint \
+spell \
+rubocop \
+libelf-dev \
+libevent-dev \
+ncurses-dev \
+build-essential \
+bison \
+pkg-config \
+patchelf \
+device-tree-compiler \
+flex \
+ninja-build \
+gperf \
+xvfb \
+flatpak \
+nxagent \
+clang \
+clang-tidy \
+cppcheck \
+lzma \
+apparmor \
+qemu-kvm \
+qemu-system-common \
+qemu-utils \
+libvirt-daemon-system \
+libvirt-clients \
+libxslt-dev \
+libxml2-dev \
+libvirt-dev \
+zlib1g-dev \
+ruby-dev \
+ruby-libvirt \
+ebtables \
+dnsmasq-base \
+xfce4 \
+xfce4-goodies \
+tightvncserver \
+gvncviewer \
+sysprof \
+acpica-tools \
+gcovr \
+evtest \
+nmap \
+bwm-ng \
+packaging-dev \
+debian-keyring \
+devscripts \
+equivs \
+mercurial \
+mtools \
+git-lfs \
+gettext \
+uncrustify \
+sox \
+isc-dhcp-client \
+asciidoc \
+xutils-dev \
+kconfig-frontends \
+dfu-util \
+evtest \
+doxygen \
+openocd \
+python3-serial \
+rlwrap \
+srecord \
+mosquitto \
+mosquitto-clients \
+xorg-dev \
+v4l-utils \
+pulseaudio-utils \
+pipewire-audio \
+pipewire-audio-client-libraries \
+pipewire-libcamera \
+pipewire-v4l2 \
+qsynth \
+qjackctl \
+wireplumber \
+alsa-utils \
+alsa-oss \
+alsamixergui \
+apulse \
+fluidsynth \
+fluid-soundfont-gm \
+jack-tools \
+drumstick-tools \
+mpv \
+libslirp-dev \
+libfuse-dev \
+libgtk-3-dev \
+libnotify-dev \
+libdrumstick-dev \
+libasound2 \
+libasound2-plugins \
+libhidapi-hidraw0 \
+libhidapi-libusb0 \
+libmpfr-dev \
+libisl-dev \
+libudev-dev \
+libftdi1-2 \
+libgpiod2 \
+libjaylink0 \
+libjim0.81 \
+libxapian30 \
+libusb-1.0-0-dev \
+&& sudo apt-get clean -y && sudo rm -rf /var/lib/apt/lists/*
+
+# gcc-multilib \
+# binutils-arm-linux-gnueabi \
+# gcc-arm-linux-gnueabi \
+# gcc-12-arm-linux-gnueabi \
+# gcc-arm-none-eabi \
 
 ################ DEB ################
 
-RUN TEMP_DEB="$(mktemp)" \
-    && wget -nv -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.23.1/code-server_4.23.1_amd64.deb' \
-    && dpkg -i "$TEMP_DEB" \
-    && rm -f "$TEMP_DEB"
+TEMP_DEB="$(mktemp)" \
+&& wget -nv -O "$TEMP_DEB" 'https://github.com/coder/code-server/releases/download/v4.23.1/code-server_4.23.1_amd64.deb' \
+&& sudo dpkg -i "$TEMP_DEB" \
+&& rm -f "$TEMP_DEB"
 
-RUN TEMP_DEB="$(mktemp)" \
-    && wget -nv -O "$TEMP_DEB" 'https://releases.hashicorp.com/vagrant/2.3.7/vagrant_2.3.7-1_amd64.deb' \
-    && dpkg -i "$TEMP_DEB" \
-    && rm -f "$TEMP_DEB"
+TEMP_DEB="$(mktemp)" \
+&& wget -nv -O "$TEMP_DEB" 'https://releases.hashicorp.com/vagrant/2.3.7/vagrant_2.3.7-1_amd64.deb' \
+&& sudo dpkg -i "$TEMP_DEB" \
+&& rm -f "$TEMP_DEB"
+
+################ SRC ################
+
+TEMP_TAR_GZ="$(mktemp)" \
+TEMP_DIR="$(mktemp -d)" \
+&& wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/tmux/tmux/releases/download/3.4/tmux-3.4.tar.gz' \
+&& tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+&& cd "${TEMP_DIR}/tmux-3.4" \
+&& ./configure && make && sudo make install \
+&& cd - \
+&& rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+TEMP_TAR_GZ="$(mktemp)" \
+TEMP_DIR="$(mktemp -d)" \
+&& wget -nv -O "$TEMP_TAR_GZ" 'https://github.com/jonas/tig/releases/download/tig-2.5.9/tig-2.5.9.tar.gz' \
+&& tar -zxf "$TEMP_TAR_GZ" -C "$TEMP_DIR" \
+&& cd "${TEMP_DIR}/tig-2.5.9" \
+&& make prefix=/usr/local && sudo make install prefix=/usr/local \
+&& cd - \
+&& rm -rf "$TEMP_TAR_GZ" "$TEMP_DIR"
+
+TEMP_TBZ="$(mktemp)" \
+TEMP_DIR="$(mktemp -d)" \
+&& wget -nv -O "$TEMP_TBZ" 'https://github.com/aristocratos/btop/releases/download/v1.3.2/btop-x86_64-linux-musl.tbz' \
+&& tar xvfj "$TEMP_TBZ" -C "$TEMP_DIR" \
+&& cd "${TEMP_DIR}/btop" \
+&& sudo make install && sudo make setuid \
+&& cd - \
+&& rm -rf "$TEMP_TBZ" "$TEMP_DIR"
+
+################ DOTFILES ################
+
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply mars-low
 
 ################ MISC ################
 
 vagrant plugin install vagrant-libvirt \
 && python3 -m pip install --no-cache-dir pynvim
+
+################ FLATPAK ################
+
+LOCAL_FLATPAK_PATH=$UTILS_PATH/flatpak
+FLATPAK_HOME=$UTILS_PATH/home/codespace
+
+export FLATPAK_USER_DIR=$LOCAL_FLATPAK_PATH/user
+export FLATPAK_SYSTEM_DIR=$LOCAL_FLATPAK_PATH/var/lib
+export FLATPAK_SYSTEM_CACHE_DIR=$LOCAL_FLATPAK_PATH/var/tmp
+export FLATPAK_CONFIG_DIR=$LOCAL_FLATPAK_PATH/etc
+export FLATPAK_RUN_DIR=$LOCAL_FLATPAK_PATH/run
+
+export XDG_DATA_HOME=$FLATPAK_HOME/.local/share
+export XDG_CONFIG_HOME=$FLATPAK_HOME/.config
+export XDG_CACHE_HOME=$FLATPAK_HOME/.cache
+
+mkdir -p $FLATPAK_CONFIG_DIR $FLATPAK_RUN_DIR $FLATPAK_SYSTEM_CACHE_DIR $FLATPAK_SYSTEM_DIR $FLATPAK_USER_DIR $FLATPAK_SYSTEM_DIR/repo/objects $FLATPAK_SYSTEM_DIR/repo/tmp $XDG_CACHE_HOME $XDG_CONFIG_HOME $XDG_DATA_HOME
+
+sudo tee $FLATPAK_SYSTEM_DIR/repo/config <<EOF
+[core]
+repo_version=1
+mode=bare-user-only
+min-free-space-size=500MB
+EOF
+
+HOME=$FLATPAK_HOME flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+HOME=$FLATPAK_HOME flatpak install --user org.chromium.Chromium
+HOME=$FLATPAK_HOME flatpak install --user com.github.wwmm.easyeffects
+
+HOME=$FLATPAK_HOME dbus-run-session -- flatpak run --user org.chromium.Chromium
+HOME=$FLATPAK_HOME flatpak run --user com.github.wwmm.easyeffects
